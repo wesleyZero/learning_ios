@@ -50,3 +50,79 @@ let employee = [ "steve" : 45,
 let nums1 = Set([1,5,2,78 ,21,311])
 
 nums1.contains(21)
+
+
+
+let player: Int = 2
+let luckyGuy: String = "not wesley"
+let pi: Double = 2.340108929
+
+let albums: Array<String> = ["1989", "21", "Enema of the State", "Lover"]
+
+let books: Dictionary<String, String> = ["1984" : "George Orwell" ]
+
+let teams: [String] = ["red sox"]
+
+let otherTeam = String()
+
+enum UIStyle {
+    case light, dark, system
+}
+
+var style: UIStyle = .light
+
+var yourstyle: UIStyle = .dark
+
+
+
+if age > 15 {
+    print("you can't vote yet ")
+}else{
+    print("you can vote")
+
+}
+
+enum Weather {
+    case sun, rain, wind
+}
+
+let forecast = Weather.sun
+
+switch forecast{
+case .sun:
+    print("it's a sunny day")
+default:
+    print("Idk man ")
+}
+
+ let ageX = 19
+let canVote = ageX >= 18 ? "Yes" : "No"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
