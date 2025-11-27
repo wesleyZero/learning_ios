@@ -1,115 +1,61 @@
 import UIKit
 
-let actor = "Tom Cruise 🚢"
+let greet = { print("Hello, world!")}
 
-let quote = "He tapped a sign that said \"believe\""
+let greet2 = { (name: String) in
+    print("Hello \(name)")
+}
 
-print(quote)
+greet()
 
-print(quote.hasPrefix("He"))
+greet2("John")
+
+let team = ["Gloria", "stavros", "John"]
+
+let onlyT = team.filter( { (name: String) in name.hasPrefix("J") })
 
 
-var counter = 5
-
-for _ in 1...5 {
-    print(counter)
+let movie = """
+This is a long quote
+that can go onto multiple lines
+"""
     
-    counter += 1
-}
+print(movie)
 
-print(counter.isMultiple(of: 5))
+movie.count
 
-let id = Int.random(in: 1...1000)
+movie.hasPrefix("This")
+movie.hasPrefix("nope")
 
-print(id)
+var score = 5
+score += 1
 
+let id = score.isMultiple(of: 4)
+let rand = Int.random(in: 1...105)
 
-let score = 3.1
-let score2 = 3.10
+let scor2 = 4.938939
 
-var weWon = true
+var dogsAreGood = true
 
-weWon.toggle()
+dogsAreGood.toggle()
 
+var colors = [ "Blue", "Red", "Orange" ]
 
-let name = "tayor swift"
-let age = 34
-let message = "Hi, my name is \(name) and I am \(age) years old."
-print(message)
+colors.append("SuperBlue")
 
-var colors = ["red" , "blue", "green"]
+colors.remove(at: 2)
 
-print(colors[1])
+colors.contains("Blue")
 
-colors.append("poop")
+var employee = [
+    "Name" : "John",
+    "Age" : "29"
+]
 
-
-let employee = [ "steve" : 45,
-                 "tim": 22]
-
-let nums1 = Set([1,5,2,78 ,21,311])
-
-nums1.contains(21)
+employee["Name", default: "Def value"]
 
 
-
-let player: Int = 2
-let luckyGuy: String = "not wesley"
-let pi: Double = 2.340108929
-
-let albums: Array<String> = ["1989", "21", "Enema of the State", "Lover"]
-
-let books: Dictionary<String, String> = ["1984" : "George Orwell" ]
-
-let teams: [String] = ["red sox"]
-
-let otherTeam = String()
-
-enum UIStyle {
-    case light, dark, system
-}
-
-var style: UIStyle = .light
-
-var yourstyle: UIStyle = .dark
-
-
-
-if age > 15 {
-    print("you can't vote yet ")
-}else{
-    print("you can vote")
-
-}
-
-enum Weather {
-    case sun, rain, wind
-}
-
-let forecast = Weather.sun
-
-switch forecast{
-case .sun:
-    print("it's a sunny day")
-default:
-    print("Idk man ")
-}
-
- let ageX = 19
-let canVote = ageX >= 18 ? "Yes" : "No"
-
-
-
-
-
-
-
-
-
-
-
-
-
+employee["Turd", default: "nope"]
 
 
 
