@@ -1,29 +1,43 @@
 import UIKit
 
-
-
-
-enum weekday {
-    case monday, tuesday, wednesday, thursday, saturday, sunday
+struct Album {
+    let title: String
+    let artist: String
+    var isReleased = false
+    var vactaionDays: Int = 14
+    var vacationDaysUsed: Int = 4
+//    var vacationDaysLeft: Int {
+//        vactaionDays - vacationDaysUsed
+//    }
+  
+    var  vacationRemaining: Int {
+        get {
+            vactaionDays -  vacationDaysUsed
+        }
+        
+        set {
+            vacationRemaining = newValue
+        }
+    }
+    
+    
+    func printSummary() {
+        print("\(title) by \(artist). \(isReleased ? "Released" : "Not released yet." )")
+    }
+    
+    mutating func markAsReleased() {
+        isReleased = true
+    }
 }
 
-var dayOfWeek: weekday = weekday.monday
+var myAlbum = Album(title: "Highway to Hell", artist: "AC/DC")
 
-dayOfWeek = .tuesday
+myAlbum.printSummary()
 
+myAlbum.markAsReleased()
 
-var numbers = Set([2,2,2,2,6,22,5,22,563,122,545])
+myAlbum.printSummary()
 
-numbers.contains(5)
-
-numbers.contains(563)
-
-numbers.insert(111)
-
-
-
-
-
-
+myAlbum.vacationDaysLeft
 
 
