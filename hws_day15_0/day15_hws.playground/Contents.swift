@@ -1,43 +1,17 @@
 import UIKit
 
-struct Album {
-    let title: String
-    let artist: String
-    var isReleased = false
-    var vactaionDays: Int = 14
-    var vacationDaysUsed: Int = 4
-//    var vacationDaysLeft: Int {
-//        vactaionDays - vacationDaysUsed
-//    }
-  
-    var  vacationRemaining: Int {
-        get {
-            vactaionDays -  vacationDaysUsed
+struct Game {
+    var score = 0 {
+        didSet {
+            print("The score is now \(score)!")
         }
-        
-        set {
-            vacationRemaining = newValue
-        }
-    }
-    
-    
-    func printSummary() {
-        print("\(title) by \(artist). \(isReleased ? "Released" : "Not released yet." )")
-    }
-    
-    mutating func markAsReleased() {
-        isReleased = true
     }
 }
 
-var myAlbum = Album(title: "Highway to Hell", artist: "AC/DC")
 
-myAlbum.printSummary()
+var game = Game()
 
-myAlbum.markAsReleased()
+game.score = 10
 
-myAlbum.printSummary()
-
-myAlbum.vacationDaysLeft
-
+game.score = 100 
 
