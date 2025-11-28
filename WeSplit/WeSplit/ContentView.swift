@@ -29,7 +29,9 @@ struct ContentView: View {
                     Text("This new section of text is helping me learn")
                 }
             }
-        }.navigationTitle("I want a new career")
+        .navigationTitle(" ")
+        .navigationBarTitleDisplayMode(.inline)
+        }
     }
     
     
