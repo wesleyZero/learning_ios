@@ -19,15 +19,17 @@ struct ContentView: View {
 //    }
     
     var body: some View {
-        Form {
-            Section {
-                Text("Hello career that actually makes me happy")
-                Text("Engineering makes me happy")
+        NavigationStack{
+            Form {
+                Section {
+                    Text("Hello career that actually makes me happy")
+                    Text("Engineering makes me happy")
+                }
+                Section {
+                    Text("This new section of text is helping me learn")
+                }
             }
-            Section {
-                Text("This new section of text is helping me learn")
-            }
-        }
+        }.navigationTitle("I want a new career")
     }
     
     
