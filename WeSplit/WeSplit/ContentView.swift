@@ -9,16 +9,42 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var selectedStudent = "x"
+    @State private var selectedStudentName = "x"
+    @State private var selectedStudentId = 0
     let students = ["Harry", "Ron", "Luna", "Draco"]
+    struct Student: Identifiable {
+        let id: Int
+        let name: String
+        init(_ id: Int,_ name: String) {
+            self.id = id
+            self.name = name
+        }
+    }
+    @State private var testedTheButton: Int = 0
+    @State private var isFavorite: Bool = false
+    
+    let students2 = [Student(0,"Harry"),
+                     Student(1, "Ron"), Student(2,"Luna"),
+                     Student(3, "Draco")]
     
     var body: some View {
         NavigationStack {
             Form {
-                Picker("Select your student", selection: $selectedStudent) {
-                    ForEach(students, id: \.self) {
-                        Text ($0)
+                Picker("Select your student A", selection: $selectedStudentName) {
+                    ForEach(students, id: \.self) { name in
+                        Text(name)
                     }
+                }
+//                Picker("Select your student B", selection: $selectedStudentId) {
+//                    ForEach(students2, id: \.self) {
+//                        Text($0)
+//                    }
+//                }
+                Button("Test button, tested \(testedTheButton) times") {
+                    testedTheButton += 1
+                }
+                Button(isFavorite ? "★" : "☆") {
+                    isFavorite.toggle()
                 }
             }
             .navigationTitle("Select a student")
@@ -76,3 +102,4 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
+
