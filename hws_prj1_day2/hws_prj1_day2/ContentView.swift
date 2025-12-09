@@ -88,6 +88,10 @@ struct ContentView: View {
                         Label("Add exception", systemImage: "plus.circle.fill")
                             .foregroundStyle(.blue)
                     }
+                    
+                    ForEach(exceptions, id: \.self) { exception in
+                        Text(exception)
+                    }
                 }
                 
                 
