@@ -114,32 +114,6 @@ struct ContentView: View {
                     }
                     }
     
-                
-                
-                
-                Section("Check with Tip For person A"){
-                    Text(checkWithTipPerPerson, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
-                    Button {
-                        let newLabel = "Exception \(exceptions.count + 1)"
-                        isPresentingNewException = true
-                    } label: {
-                        Label("Add exception", systemImage: "plus.circle.fill")
-                            .foregroundStyle(.blue)
-                    }
-                    ForEach(exceptions) { exception in
-                        HStack {
-                            Text(exception.label)
-                            Spacer()
-                            Text("2nd col").foregroundStyle(.secondary)
-                            Spacer()
-                            Text(exception.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                }
-                
-                
-                
             }
             .navigationTitle("WeSplit")
             .toolbar {
