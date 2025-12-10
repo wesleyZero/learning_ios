@@ -18,7 +18,7 @@ struct ContentView: View {
         checkAmount * (1 + Double(tipPercentage) / 100.0)
     }
     private var checkWithTipPerPerson: Double {
-        checkWithTip / Double(numOfPpl)
+        checkWithTip / Double(numOfPpl + MIN_NUM_PPL)
     }
     
     @FocusState private var amountIsFocused: Bool
@@ -77,35 +77,55 @@ struct ContentView: View {
                     .pickerStyle(.segmented)
                 }
                 
-                Section("Check with Tip") {
+                Section("Total Check with Tip") {
                     Text(checkWithTip, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                 }
                 
-                Section("Check with Tip / Person"){
+                Section("Check with Tip / Person (w/o exceptions)"){
                     Text(checkWithTipPerPerson, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                 }
                 
+                
+          
+                ForEach(0..<numOfPpl + MIN_NUM_PPL, id: \.self) { index in
+                        let name = people[index].isEmpty
+                            ? "Person \(index + 1)"
+                            : people[index]
+
+                    Section("Check with Tip For \(people[index])"){
+                        Text(checkWithTipPerPerson, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                        Button {
+                            let newLabel = "Exception \(exceptions.count + 1)"
+                            isPresentingNewException = true
+                        } label: {
+                            Label("Add exception", systemImage: "plus.circle.fill")
+                                .foregroundStyle(.blue)
+                        }
+                        ForEach(exceptions) { exception in
+                            HStack {
+                                Text(exception.label)
+                                Spacer()
+                                Text("2nd col").foregroundStyle(.secondary)
+                                Spacer()
+                                Text(exception.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                    }
+    
+                
+                
+                
                 Section("Check with Tip For person A"){
-//                    TextField()
                     Text(checkWithTipPerPerson, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                     Button {
                         let newLabel = "Exception \(exceptions.count + 1)"
-                        
                         isPresentingNewException = true
-                        
-                        
-                        
-//                        excepuse
-//                        tions.append(Exception(label: newLabel, amount: 0))
-//                        print(exceptions)
                     } label: {
                         Label("Add exception", systemImage: "plus.circle.fill")
                             .foregroundStyle(.blue)
                     }
-                   
-                    
-                    
-                    
                     ForEach(exceptions) { exception in
                         HStack {
                             Text(exception.label)
@@ -183,4 +203,3 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
-
