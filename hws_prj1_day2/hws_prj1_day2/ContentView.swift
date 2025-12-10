@@ -24,8 +24,16 @@ struct ContentView: View {
     
     var tipPercentages = [10, 15, 20, 25, 30, 0]
     
-    @State private var exceptions: [String] = []
-    
+//    @State private var exceptions: [String] = []
+    @State private var exceptions: [Exception] = []
+    @State private var isPresentingNewException: Bool = false
+    @State private var newExceptionLabel: String = ""
+    @State private var newExceptionAmount: Double = 0.0
+    struct Exception: Identifiable, Hashable {
+        let id = UUID()
+        var label: String
+        var amount: Double
+    }
     
     
     var body: some View {
@@ -82,15 +90,24 @@ struct ContentView: View {
                     Text(checkWithTipPerPerson, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                     Button {
                         let newLabel = "Exception \(exceptions.count + 1)"
-                        exceptions.append(newLabel)
+                        
+                        
+                        
+                        
+                        exceptions.append(Exception(label: newLabel, amount: 0))
                         print(exceptions)
                     } label: {
                         Label("Add exception", systemImage: "plus.circle.fill")
                             .foregroundStyle(.blue)
                     }
                     
-                    ForEach(exceptions, id: \.self) { exception in
-                        Text(exception)
+                    ForEach(exceptions) { exception in
+                        HStack {
+                            Text(exception.label)
+                            Spacer()
+                            Text(exception.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                                .foregroundStyle(.secondary)
+                        }
                     }
                 }
                 
@@ -119,3 +136,4 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
+
