@@ -17,8 +17,17 @@ struct ContentView: View {
     private var checkWithTip: Double {
         checkAmount * (1 + Double(tipPercentage) / 100.0)
     }
+    
     private var checkWithTipPerPerson: Double {
         checkWithTip / Double(numOfPpl + MIN_NUM_PPL)
+    }
+    
+    private func sumOfExceptions(for personIndex: Int) -> Double {
+        exceptions.filter { $0.personIndex == personIndex }.reduce(0) { $0 + $1.amount }
+    }
+    
+    private func totalForPerson(index: Int) -> Double {
+        checkWithTipPerPerson + sumOfExceptions(for: index)
     }
     
     @FocusState private var amountIsFocused: Bool
@@ -31,8 +40,11 @@ struct ContentView: View {
     @State private var isPresentingNewException: Bool = false
     @State private var newExceptionLabel: String = ""
     @State private var newExceptionAmount: Double = 0.0
+    @State private var selectedPersonIndexForException: Int? = nil
+
     struct Exception: Identifiable, Hashable {
         let id = UUID()
+        var personIndex: Int
         var label: String
         var amount: Double
     }
@@ -81,7 +93,7 @@ struct ContentView: View {
                     Text(checkWithTip, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                 }
                 
-                Section("Check with Tip / Person (w/o exceptions)"){
+                Section("Check with Tip / Person (before exceptions)"){
                     Text(checkWithTipPerPerson, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                 }
                 
@@ -92,23 +104,32 @@ struct ContentView: View {
                             ? "Person \(index + 1)"
                             : people[index]
 
-                    Section("Check with Tip For \(people[index])"){
-                        Text(checkWithTipPerPerson, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                    Section("Check with Tip For \(name)"){
+                        Text(totalForPerson(index: index), format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                         Button {
-                            let newLabel = "Exception \(exceptions.count + 1)"
+                            selectedPersonIndexForException = index
+                            newExceptionLabel = ""
+                            newExceptionAmount = 0.0
                             isPresentingNewException = true
                         } label: {
                             Label("Add exception", systemImage: "plus.circle.fill")
                                 .foregroundStyle(.blue)
                         }
-                        ForEach(exceptions) { exception in
+                        ForEach(exceptions.filter { $0.personIndex == index }) { exception in
                             HStack {
                                 Text(exception.label)
                                 Spacer()
-                                Text("2nd col").foregroundStyle(.secondary)
-                                Spacer()
                                 Text(exception.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                                     .foregroundStyle(.secondary)
+                            }
+                            .swipeActions {
+                                Button(role: .destructive) {
+                                    if let idx = exceptions.firstIndex(where: { $0.id == exception.id }) {
+                                        exceptions.remove(at: idx)
+                                    }
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
                             }
                         }
                     }
@@ -151,16 +172,23 @@ struct ContentView: View {
                         ToolbarItem(placement: .cancellationAction) {
                             Button("Cancel") {
                                 isPresentingNewException = false
+                                selectedPersonIndexForException = nil
                             }
                         }
                         ToolbarItem(placement: .confirmationAction) {
                             Button("Save") {
+                                guard let personIndex = selectedPersonIndexForException else {
+                                    isPresentingNewException = false
+                                    return
+                                }
                                 let newException = Exception(
+                                    personIndex: personIndex,
                                     label: newExceptionLabel,
                                     amount: newExceptionAmount
                                 )
                                 exceptions.append(newException)
                                 isPresentingNewException = false
+                                selectedPersonIndexForException = nil
                             }
                         }
                     }
