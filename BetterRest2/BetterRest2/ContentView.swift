@@ -39,6 +39,12 @@ struct ContentView: View {
             let config = MLModelConfiguration()
             let model = try SleepCalculator(configuration: config)
             // TODO: Use the model with inputs to compute bedtime and present it to the user.
+
+            let components = Calendar.current.dateComponents([.hour, .minute], from: wakeUp)
+            let hour = (components.hour ?? 0 ) * 60 * 60
+            let min = (components.minute ?? 0) * 60
+            let prediction = try model.prediction(wake: Double(hour + min),
+                                estimatedSleep: sleepAmount, coffee: Double(coffeeAmount))
         } catch {
             // Handle model loading errors appropriately.
             print("Failed to load SleepCalculator: \(error)")
