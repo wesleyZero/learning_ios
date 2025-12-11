@@ -12,6 +12,14 @@ struct ContentView: View {
     @State private var sleepAmount = 8.0
     @State private var coffeeAmount = 1
 
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
+    @State private var showingAlert = false
+
+
+
+
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -31,6 +39,8 @@ struct ContentView: View {
             .toolbar {
                 Button("Calc", action: calculatedBedtime)
             }
+            .alert(alertTitle, isPresented: $showingAlert) {
+            }
         }
     }
 
@@ -45,9 +55,15 @@ struct ContentView: View {
             let min = (components.minute ?? 0) * 60
             let prediction = try model.prediction(wake: Double(hour + min),
                                 estimatedSleep: sleepAmount, coffee: Double(coffeeAmount))
+
+            let sleepTime = wakeUp - prediction.actualSleep
+            let alertTitle = "Your ideal bedtime is ..."
+            let alertMsg = sleepTime.formatted(date: .omitted, time: .shortened)
+
         } catch {
             // Handle model loading errors appropriately.
-            print("Failed to load SleepCalculator: \(error)")
+            alertTitle = "Error"
+            print("Sorry, there was an issue calculating your bedtime: \(error)")
         }
     }
 }
